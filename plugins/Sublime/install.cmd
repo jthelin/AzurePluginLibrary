@@ -1,1 +1,1 @@
-"Sublime Text 2 Build 2181 x64 Setup.exe" /silent
+Sublime.exe /silent
