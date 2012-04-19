@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<RoleModule 
+  xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition"
+  namespace="Two10.AzureBlobDrive">
+  <Startup>
+    <Task commandLine="Startup.cmd" executionContext="elevated" taskType="simple" />
+    <Task commandLine="Two10.AzureBlobDrive.Plugin.exe" executionContext="elevated" taskType="background" />
+  </Startup>
+  <ConfigurationSettings>
+    <Setting name="DriveLetter"/>
+    <Setting name="AzureConnectionString"/>
+  </ConfigurationSettings>
+  <Endpoints>
+  </Endpoints>
+  <Certificates>
+  </Certificates>
+</RoleModule>

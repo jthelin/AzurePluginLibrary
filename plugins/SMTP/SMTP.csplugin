@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<RoleModule 
+  xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition"
+  namespace="Microsoft.WindowsAzure.Plugins.SMTP">
+  <Startup>
+    <Task commandLine="install.cmd" executionContext="elevated" taskType="simple" />
+  </Startup>
+  <ConfigurationSettings>
+  </ConfigurationSettings>
+  <Endpoints>
+     <InputEndpoint name="SMTP" protocol="tcp" port="25" localPort="*" ignoreRoleInstanceStatus="true" />
+  </Endpoints>
+  <Certificates>
+  </Certificates>
+</RoleModule>
