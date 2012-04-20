@@ -18,12 +18,13 @@ namespace ReadSetting
             {
                 Environment.SetEnvironmentVariable(key, value, EnvironmentVariableTarget.Machine);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Console.WriteLine("Need elevation to set machine variable");
             }
             Environment.SetEnvironmentVariable(key, value, EnvironmentVariableTarget.User);
             Environment.SetEnvironmentVariable(key, value, EnvironmentVariableTarget.Process);
+            Console.WriteLine(value);
         }
     }
 }
