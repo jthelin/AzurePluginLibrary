@@ -1,0 +1,1 @@
+ %programfiles(x86)%\nodejs\node.exe %RoleRoot%\AppRoot\server.js

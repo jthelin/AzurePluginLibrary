@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <RoleModule 
   xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition"
-  namespace="Microsoft.WindowsAzure.Plugins.CloudXplorer">
+  namespace="Two10.CloudXplorer">
   <Startup>
     <Task commandLine="install.cmd" executionContext="elevated" taskType="simple" />
   </Startup>

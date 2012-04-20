@@ -12,7 +12,18 @@ namespace ReadSetting
                 Console.WriteLine("You must specify the name of the setting to retrieve");
                 return;
             }
-            Console.WriteLine(RoleEnvironment.GetConfigurationSettingValue(args[0]));
+            var key = args[0];
+            var value = RoleEnvironment.GetConfigurationSettingValue(key);
+            try
+            {
+                Environment.SetEnvironmentVariable(key, value, EnvironmentVariableTarget.Machine);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Need elevation to set machine variable");
+            }
+            Environment.SetEnvironmentVariable(key, value, EnvironmentVariableTarget.User);
+            Environment.SetEnvironmentVariable(key, value, EnvironmentVariableTarget.Process);
         }
     }
 }

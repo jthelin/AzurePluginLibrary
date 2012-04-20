@@ -1,7 +1,7 @@
 Option Explicit
 Dim iisSmtpServer, relayIpList, domainObject, newDomain,alias
 
-alias = "cloudapp.net"
+alias = WScript.Arguments(0)
 ' Create an instance of the SmtpServer object that represents the default smtp server.
 Set iisSmtpServer = GetObject("IIS://localhost/smtpsvc/1")
 ' Get the current relay ip list

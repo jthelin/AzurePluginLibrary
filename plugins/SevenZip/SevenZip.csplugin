@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <RoleModule 
   xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition"
-  namespace="Microsoft.WindowsAzure.Plugins.Sevenzip">
+  namespace="Two10.Sevenzip">
   <ConfigurationSettings>
   </ConfigurationSettings>
   <Endpoints>
