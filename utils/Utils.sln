@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReadSetting", "ReadSetting\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppendPath", "AppendPath\AppendPath.csproj", "{CD0221C9-727B-40A6-9DD5-6DFC747DFCDE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExecuteMultipleCommand", "ExecuteMultipleCommand\ExecuteMultipleCommand.csproj", "{6814168D-C8B4-438F-AF6C-5A8AF9AC9160}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -25,6 +27,10 @@ Global
 		{CD0221C9-727B-40A6-9DD5-6DFC747DFCDE}.Debug|x86.Build.0 = Debug|x86
 		{CD0221C9-727B-40A6-9DD5-6DFC747DFCDE}.Release|x86.ActiveCfg = Release|x86
 		{CD0221C9-727B-40A6-9DD5-6DFC747DFCDE}.Release|x86.Build.0 = Release|x86
+		{6814168D-C8B4-438F-AF6C-5A8AF9AC9160}.Debug|x86.ActiveCfg = Debug|x86
+		{6814168D-C8B4-438F-AF6C-5A8AF9AC9160}.Debug|x86.Build.0 = Debug|x86
+		{6814168D-C8B4-438F-AF6C-5A8AF9AC9160}.Release|x86.ActiveCfg = Release|x86
+		{6814168D-C8B4-438F-AF6C-5A8AF9AC9160}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

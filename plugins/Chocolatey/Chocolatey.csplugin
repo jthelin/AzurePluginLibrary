@@ -1,12 +1,13 @@
 <?xml version="1.0" ?>
 <RoleModule 
   xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition"
-  namespace="Two10.Node">
+  namespace="Two10.Chocolatey">
   <Startup>
     <Task commandLine="install.cmd" executionContext="elevated" taskType="simple" />
-    <Task commandLine="start.cmd" executionContext="elevated" taskType="background" />
+    <Task commandLine="start.cmd" executionContext="elevated" taskType="simple" />
   </Startup>
   <ConfigurationSettings>
+    <Setting name="CommaSeparatedPackageList"/>  
   </ConfigurationSettings>
   <Endpoints>
   </Endpoints>
