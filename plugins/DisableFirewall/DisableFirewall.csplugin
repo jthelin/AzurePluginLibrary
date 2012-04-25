@@ -1,10 +1,9 @@
 <?xml version="1.0" ?>
 <RoleModule 
   xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition"
-  namespace="Two10.Node">
-  <Startup priority="-1">
-    <Task commandLine="install.cmd" executionContext="elevated" taskType="simple" />
-    <Task commandLine="start.cmd" executionContext="elevated" taskType="background" />
+  namespace="Two10.DisableFirewall">
+  <Startup>
+    <Task commandLine="setup.cmd" executionContext="elevated" taskType="simple" />
   </Startup>
   <ConfigurationSettings>
   </ConfigurationSettings>

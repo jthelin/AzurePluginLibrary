@@ -1,0 +1,1 @@
+ReadSetting.exe Two10.SMTP.Alias

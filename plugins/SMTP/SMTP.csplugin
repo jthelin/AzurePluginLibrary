@@ -3,13 +3,14 @@
   xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition"
   namespace="Two10.SMTP">
   <Startup>
+    <Task commandLine="GetEnvironmentVariable.cmd" executionContext="elevated" taskType="simple" />
     <Task commandLine="install.cmd" executionContext="elevated" taskType="simple" />
   </Startup>
   <ConfigurationSettings>
     <Setting name="Alias"/>  
   </ConfigurationSettings>
   <Endpoints>
-     <InputEndpoint name="SMTP" protocol="tcp" port="25" localPort="*" ignoreRoleInstanceStatus="false" />
+     <InputEndpoint name="SMTP" protocol="tcp" port="25" localPort="25" ignoreRoleInstanceStatus="false" />
   </Endpoints>
   <Certificates>
   </Certificates>
