@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppendPath", "AppendPath\Ap
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExecuteMultipleCommand", "ExecuteMultipleCommand\ExecuteMultipleCommand.csproj", "{6814168D-C8B4-438F-AF6C-5A8AF9AC9160}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChaosMonkeyWait", "ChaosMonkeyWait\ChaosMonkeyWait.csproj", "{3544B39E-7F15-4D03-8F6C-142DEB4FE1E2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -31,6 +33,10 @@ Global
 		{6814168D-C8B4-438F-AF6C-5A8AF9AC9160}.Debug|x86.Build.0 = Debug|x86
 		{6814168D-C8B4-438F-AF6C-5A8AF9AC9160}.Release|x86.ActiveCfg = Release|x86
 		{6814168D-C8B4-438F-AF6C-5A8AF9AC9160}.Release|x86.Build.0 = Release|x86
+		{3544B39E-7F15-4D03-8F6C-142DEB4FE1E2}.Debug|x86.ActiveCfg = Debug|x86
+		{3544B39E-7F15-4D03-8F6C-142DEB4FE1E2}.Debug|x86.Build.0 = Debug|x86
+		{3544B39E-7F15-4D03-8F6C-142DEB4FE1E2}.Release|x86.ActiveCfg = Release|x86
+		{3544B39E-7F15-4D03-8F6C-142DEB4FE1E2}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
