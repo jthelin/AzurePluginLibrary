@@ -8,9 +8,10 @@
   <ConfigurationSettings>
     <Setting name="ConnectionString"/>
     <Setting name="BlobUri"/>
+    <Setting name="DriveLetter"/>
   </ConfigurationSettings>
   <LocalResources>
-    <LocalStorage name="Two10.MountVHD.Cache" cleanOnRoleRecycle="false" sizeInMB="5000" />
+    <LocalStorage name="Cache" cleanOnRoleRecycle="false" sizeInMB="5000" />
   </LocalResources>
   <Endpoints>
   </Endpoints>

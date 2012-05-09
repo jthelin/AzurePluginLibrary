@@ -1,0 +1,1 @@
+Disables the Windows firewall on a Web or Worker Role.

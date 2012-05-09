@@ -1,0 +1,1 @@
+Enables Classic ASP on IIS of a Web Role.

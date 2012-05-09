@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.Threading;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.ServiceRuntime;
 using Microsoft.WindowsAzure.StorageClient;
-
 
 namespace MountVHD
 {
@@ -13,9 +14,13 @@ namespace MountVHD
         {
             var blobUri = RoleEnvironment.GetConfigurationSettingValue("Two10.MountVHD.BlobUri");
             var connectionString = RoleEnvironment.GetConfigurationSettingValue("Two10.MountVHD.ConnectionString");
+            var driveLetter = RoleEnvironment.GetConfigurationSettingValue("Two10.MountVHD.DriveLetter");
+            driveLetter = string.IsNullOrWhiteSpace(driveLetter) ? "X" : driveLetter.ToUpper();
             var path = MountCloudDrive(blobUri, connectionString);
-            Console.WriteLine(path);
-            Console.ReadKey();
+            if (path[0] != driveLetter[0])
+            {
+                RunDiskPart(driveLetter[0], path[0]);
+            }
         }
 
         private static string MountCloudDrive(string uri, string connectionString)
@@ -75,6 +80,35 @@ namespace MountVHD
             }
 
             return null;
+        }
+
+        private static void RunDiskPart(char destinationDriveLetter, char mountedDriveLetter)
+        {
+            string diskpartFile = Path.Combine("diskpart.txt");
+
+            if (File.Exists(diskpartFile))
+            {
+                File.Delete(diskpartFile);
+            }
+
+            string cmd = "select volume = " + mountedDriveLetter + "\r\n" + "assign letter = " + destinationDriveLetter;
+            File.WriteAllText(diskpartFile, cmd);
+
+            //start the process 
+            Console.WriteLine("Running diskpart using " + cmd);
+            using (Process changeletter = new Process())
+            {
+                changeletter.StartInfo.Arguments = "/s" + " " + diskpartFile;
+                changeletter.StartInfo.FileName =
+           System.Environment.GetEnvironmentVariable("WINDIR") + "\\System32\\diskpart.exe";
+                //#if !DEBUG 
+                changeletter.Start();
+                changeletter.WaitForExit();
+                //#endif 
+            }
+
+            File.Delete(diskpartFile);
+
         }
 
     }

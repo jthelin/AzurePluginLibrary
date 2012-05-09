@@ -1,1 +1,1 @@
-MountVHD.exe
+MountVHD.exe >> log.log

@@ -1,0 +1,1 @@
+Turns off Internet Explorer's secure browsing mode, which makes the browser usable. 
