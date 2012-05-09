@@ -9,6 +9,9 @@
     <Setting name="ConnectionString"/>
     <Setting name="BlobUri"/>
   </ConfigurationSettings>
+  <LocalResources>
+    <LocalStorage name="Two10.MountVHD.Cache" cleanOnRoleRecycle="false" sizeInMB="5000" />
+  </LocalResources>
   <Endpoints>
   </Endpoints>
   <Certificates>
