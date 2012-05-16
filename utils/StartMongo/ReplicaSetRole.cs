@@ -77,7 +77,6 @@ namespace MongoDB.Azure.ReplicaSets.ReplicaSetRole
                 configSetter(RoleEnvironment.GetConfigurationSettingValue(configName));
             });
 
-            RoleEnvironment.Changing += RoleEnvironmentChanging;
             RoleEnvironment.Changed += RoleEnvironmentChanged;
 
             replicaSetName = RoleEnvironment.GetConfigurationSettingValue(MongoDBAzureHelper.ReplicaSetNameSetting).ToLower();
@@ -287,15 +286,6 @@ namespace MongoDB.Azure.ReplicaSets.ReplicaSetRole
             return !processExited;
         }
 
-        private void RoleEnvironmentChanging(object sender, RoleEnvironmentChangingEventArgs e)
-        {
-            Func<RoleEnvironmentConfigurationSettingChange, bool> changeIsExempt = 
-                x => !Settings.ExemptConfigurationItems.Contains(x.ConfigurationSettingName);
-            var environmentChanges = e.Changes.OfType<RoleEnvironmentConfigurationSettingChange>();
-            e.Cancel = environmentChanges.Any(changeIsExempt);
-            DiagnosticsHelper.TraceInformation(string.Format("Role config changing. Cancel set to {0}",
-                e.Cancel));
-        }
 
         private void RoleEnvironmentChanged(object sender, RoleEnvironmentChangedEventArgs e)
         {
@@ -310,18 +300,7 @@ namespace MongoDB.Azure.ReplicaSets.ReplicaSetRole
                     string.Format("Setting {0} now has value {1} ",
                     settingName,
                     value));
-                if (settingName == Settings.LogVerbositySetting)
-                {
-                    var logLevel = Utilities.GetLogVerbosity(value);
-                    if (logLevel != null)
-                    {
-                        if (logLevel != Settings.MongodLogLevel)
-                        {
-                            Settings.MongodLogLevel = logLevel;
-                            DatabaseHelper.SetLogLevel(mongodPort, logLevel);
-                        }
-                    }
-                }
+               
             }
 
 

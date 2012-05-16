@@ -28,23 +28,20 @@ namespace MongoDB.Azure.ReplicaSets.ReplicaSetRole
         #region DO NOT MODIFY
 
         // configuration setting names
-        internal const string DataDirSetting = "MongoDBDataDir";
-        internal const string LocalCacheDirSetting = "MongoDBLocalDataDir";
-        internal const string DataDirSizeSetting = "MongoDBDataDirSizeMB";
-        internal const string LogDirSetting = "MongodLogDir";
-        internal const string LogVerbositySetting = "MongoDBLogVerbosity";
+        internal const string DataDirSetting = "Two10.MongoDB.ConnectionString";
+        internal const string LocalCacheDirSetting = "Two10.MongoDB.MongoDBLocalDataDir";
+        internal const string DataDirSizeSetting = "Two10.MongoDB.VHDSize";
+        internal const string LogDirSetting = "Two10.MongoDB.MongodLogDir";
 
         internal const string MongodDataBlobContainerName = "mongoddatadrive{0}";
         internal const string MongodDataBlobName = "mongoddblob{0}.vhd";
-        internal const string MongoDBBinaryFolder = @"approot\MongoDBBinaries\bin";
+        internal const string MongoDBBinaryFolder = @"plugins\MongoDB";
         internal const string MongodLogFileName = "mongod.log";
-        internal const string MongodCommandLineCloud = "--port {0} --dbpath {1} --logpath {2} --nohttpinterface --logappend --replSet {3} {4}";
+        internal const string MongodCommandLineCloud = "--port {0} --dbpath {1} --logpath {2} --nohttpinterface --logappend --smallfiles --replSet {3} {4}";
         internal const string MongodCommandLineEmulated = "--port {0} --dbpath {1} --logpath {2} --replSet {3} {4} --oplogSize 10 --smallfiles --noprealloc";
 
-        internal const string MongodDataBlobCacheDir = "MongodDataBlobCacheDir";
-        internal static readonly string[] ExemptConfigurationItems =
-            new[] { LogVerbositySetting };
-
+        internal const string MongodDataBlobCacheDir = "Two10.MongoDB.MongodDataBlobCacheDir";
+        internal const string LogVerbosity = "Verbose";
 
         // Default values for configurable settings
         private const int DefaultEmulatedDBDriveSize = 1024; // in MB
@@ -67,8 +64,8 @@ namespace MongoDB.Azure.ReplicaSets.ReplicaSetRole
                 dbDriveSize = DefaultDeployedDBDriveSize;
             }
 
-            string mongoDataDirSize = null; 
-            try 
+            string mongoDataDirSize = null;
+            try
             {
                 mongoDataDirSize = RoleEnvironment.GetConfigurationSettingValue(DataDirSizeSetting);
             }
@@ -100,8 +97,7 @@ namespace MongoDB.Azure.ReplicaSets.ReplicaSetRole
 
             try
             {
-                var configuredLogLevel = RoleEnvironment.GetConfigurationSettingValue(Settings.LogVerbositySetting);
-                var logLevel = Utilities.GetLogVerbosity(configuredLogLevel);
+                var logLevel = Utilities.GetLogVerbosity(LogVerbosity);
                 if (logLevel != null)
                 {
                     MongodLogLevel = logLevel;

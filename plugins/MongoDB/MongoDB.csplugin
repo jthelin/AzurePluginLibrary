@@ -8,8 +8,7 @@
   <ConfigurationSettings>
       <Setting name="ConnectionString" />
       <Setting name="ReplicaSetName" />
-      <Setting name="MongoDBDataDirSizeMB" />
-      <Setting name="MongoDBLogVerbosity" />
+      <Setting name="VHDSize" />
   </ConfigurationSettings>
   <LocalResources>
     <LocalStorage name="MongoDBLocalDataDir" cleanOnRoleRecycle="false" sizeInMB="1024" />

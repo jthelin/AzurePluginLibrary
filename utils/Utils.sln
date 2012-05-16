@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChaosMonkeyWait", "ChaosMon
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MountVHD", "MountVHD\MountVHD.csproj", "{0776FF72-E82F-4A2A-9CFB-EA5D0ED2A7AC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StartMongo", "StartMongo\StartMongo.csproj", "{517E246F-952C-427B-94CE-64B7106A7AE9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -43,6 +45,10 @@ Global
 		{0776FF72-E82F-4A2A-9CFB-EA5D0ED2A7AC}.Debug|x86.Build.0 = Debug|x86
 		{0776FF72-E82F-4A2A-9CFB-EA5D0ED2A7AC}.Release|x86.ActiveCfg = Release|x86
 		{0776FF72-E82F-4A2A-9CFB-EA5D0ED2A7AC}.Release|x86.Build.0 = Release|x86
+		{517E246F-952C-427B-94CE-64B7106A7AE9}.Debug|x86.ActiveCfg = Debug|x86
+		{517E246F-952C-427B-94CE-64B7106A7AE9}.Debug|x86.Build.0 = Debug|x86
+		{517E246F-952C-427B-94CE-64B7106A7AE9}.Release|x86.ActiveCfg = Release|x86
+		{517E246F-952C-427B-94CE-64B7106A7AE9}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
