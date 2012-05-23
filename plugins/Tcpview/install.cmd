@@ -1,1 +1,0 @@
-Sublime.exe /silent
