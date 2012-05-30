@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<RoleModule 
+  xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition"
+  namespace="Two10.Tomcat">
+  <Startup>
+    <Task commandLine="install.cmd" executionContext="limited" taskType="background" />
+  </Startup>
+  <ConfigurationSettings>
+  </ConfigurationSettings>
+  <Endpoints>
+  <InputEndpoint name="Tomcat55" protocol="tcp" port="8080" />
+  </Endpoints>
+  <Certificates>
+  </Certificates>
+</RoleModule>
