@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<RoleModule 
+  xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition"
+  namespace="Two10.nginx">
+  <Startup>
+    <Task commandLine="start.cmd" executionContext="elevated" taskType="background" />
+  </Startup>
+  <Endpoints>
+  </Endpoints>
+  <Certificates>
+  </Certificates>
+</RoleModule>
