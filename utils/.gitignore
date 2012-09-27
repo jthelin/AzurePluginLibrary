@@ -26,3 +26,4 @@ TestResult.xml
 *.ncrunchsolution
 Output
 *.cache
+*.suo

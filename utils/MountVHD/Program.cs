@@ -26,7 +26,7 @@ namespace MountVHD
         private static string MountCloudDrive(string uri, string connectionString)
         {
             Console.WriteLine("Configuring CloudDrive", "Information");
-
+            /*
             LocalResource localCache = RoleEnvironment.GetLocalResource("Two10.MountVHD.Cache");
 
             const int TRIES = 30;
@@ -57,18 +57,19 @@ namespace MountVHD
                     Console.WriteLine("Using temporary workaround for ERROR_UNSUPPORTED_OS see http://bit.ly/fw7qzo", "Information");
                     Thread.Sleep(10000);
                 }
-            }
+            }*/
 
             CloudStorageAccount cloudDriveStorageAccount = CloudStorageAccount.Parse(connectionString);
             CloudBlobClient blobClient = cloudDriveStorageAccount.CreateCloudBlobClient();
             CloudPageBlob pageBlob = blobClient.GetPageBlobReference(uri);
 
             var cloudDrive = cloudDriveStorageAccount.CreateCloudDrive(pageBlob.Uri.ToString());
+            cloudDrive.CreateIfNotExist(1024 * 250);
 
             try
             {
                 Console.WriteLine(string.Format("Mounting {0}", cloudDrive.Uri), "Information");
-                return cloudDrive.Mount(25, DriveMountOptions.Force);
+                return cloudDrive.Mount(0, DriveMountOptions.None);
             }
             catch (CloudDriveException e)
             {
