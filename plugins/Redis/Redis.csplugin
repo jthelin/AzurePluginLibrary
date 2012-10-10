@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<RoleModule 
+  xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition"
+  namespace="Two10.Redis">
+  <Startup>
+    <Task commandLine="redis-server.exe" executionContext="limited" taskType="background" />
+  </Startup>
+  <Endpoints>
+    <InternalEndpoint name="Redis" protocol="tcp" port="6379" />
+  </Endpoints>
+  <Certificates>
+  </Certificates>
+</RoleModule>
