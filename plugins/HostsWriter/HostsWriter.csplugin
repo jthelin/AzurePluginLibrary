@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<RoleModule 
+  xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition"
+  namespace="Two10.HostsWriter">
+  <Startup>
+    <Task commandLine="startup.cmd" executionContext="elevated" taskType="background" />
+  </Startup>
+  <ConfigurationSettings>
+  </ConfigurationSettings>
+  <Endpoints>
+  </Endpoints>
+  <Certificates>
+  </Certificates>
+</RoleModule>
