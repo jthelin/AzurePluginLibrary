@@ -1,0 +1,1 @@
+copy WaWorkerHost.exe.config \base\x64\. /Y >> setupWaWorker.txt
