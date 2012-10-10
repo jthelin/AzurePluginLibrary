@@ -14,7 +14,6 @@ namespace HostfileWriter
             {
                 foreach (var instance in role.Instances.Where(x => x.InstanceEndpoints.Count > 0))
                 {
-                    var endpoint = instance.InstanceEndpoints.FirstOrDefault();
                     Console.WriteLine(string.Format("{0} {1}", instance.InstanceEndpoints.Values.First().IPEndpoint.Address, instance.Id));
 
                 }
