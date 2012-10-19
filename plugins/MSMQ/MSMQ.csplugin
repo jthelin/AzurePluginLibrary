@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<RoleModule 
+  xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition"
+  namespace="Two10.MSMQ">
+  <Startup>
+    <Task commandLine="install.cmd" executionContext="elevated" taskType="simple" />
+  </Startup>
+  <Endpoints>
+     <InternalEndpoint name="MSMQ" protocol="tcp" port="1801" />
+  </Endpoints>
+  <Certificates>
+  </Certificates>
+</RoleModule>
