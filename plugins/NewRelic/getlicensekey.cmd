@@ -1,0 +1,1 @@
+ReadSetting.exe NewRelic.LicenseKey
