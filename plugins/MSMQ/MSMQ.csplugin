@@ -6,7 +6,10 @@
     <Task commandLine="install.cmd" executionContext="elevated" taskType="simple" />
   </Startup>
   <Endpoints>
-     <InternalEndpoint name="MSMQ" protocol="tcp" port="1801" />
+      <InternalEndpoint name="MSMQ_A" protocol="tcp" port="1801" />
+      <InternalEndpoint name="MSMQ_B" protocol="tcp" port="2103" />
+      <InternalEndpoint name="MSMQ_C" protocol="tcp" port="2105" />
+      <InternalEndpoint name="MSMQ_D" protocol="tcp" port="135" />
   </Endpoints>
   <Certificates>
   </Certificates>
