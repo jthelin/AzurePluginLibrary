@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<RoleModule 
+  xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition"
+  namespace="Two10.FileWatcher">
+  <Startup>
+    <Task commandLine="start.cmd" executionContext="elevated" taskType="background" />
+  </Startup>
+  <ConfigurationSettings>
+    <Setting name="Path"/>  
+    <Setting name="StorageAccount"/>  
+    <Setting name="Container"/>  
+    <Setting name="Filter"/>  
+  </ConfigurationSettings>
+  <Endpoints>
+  </Endpoints>
+  <Certificates>
+  </Certificates>
+</RoleModule>
