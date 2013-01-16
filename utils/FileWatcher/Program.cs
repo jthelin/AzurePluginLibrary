@@ -23,6 +23,8 @@ namespace FileWatcher
             var container = RoleEnvironment.GetConfigurationSettingValue(nmspace + ".Container");
             var filter = RoleEnvironment.GetConfigurationSettingValue(nmspace + ".Filter");
 
+            Directory.CreateDirectory(path);
+
             var account = CloudStorageAccount.Parse(storageAccount);
             var blobClient = account.CreateCloudBlobClient();
             var containerRef = blobClient.GetContainerReference(container);
