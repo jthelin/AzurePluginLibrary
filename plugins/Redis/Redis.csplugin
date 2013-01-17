@@ -3,8 +3,12 @@
   xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition"
   namespace="Two10.Redis">
   <Startup>
-    <Task commandLine="redis-server.exe" executionContext="limited" taskType="background" />
+    <Task commandLine="startfilewatcher.cmd" executionContext="limited" taskType="background" />
+    <Task commandLine="startredis.cmd" executionContext="limited" taskType="background" />
   </Startup>
+  <ConfigurationSettings>
+    <Setting name="StorageAccount"/>  
+  </ConfigurationSettings>  
   <Endpoints>
     <InternalEndpoint name="Redis" protocol="tcp" port="6379" />
   </Endpoints>

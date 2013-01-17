@@ -1,0 +1,1 @@
+FileWatcher.exe -namespace Two10.Redis -filter *.rdb -container redis -path .\

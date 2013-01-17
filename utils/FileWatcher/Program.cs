@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.ServiceRuntime;
@@ -12,16 +14,18 @@ namespace FileWatcher
         static void Main(string[] args)
         {
             Console.WriteLine("Starting FileWatcher");
-            string nmspace = "Two10.FileWatcher";
-            if (args.Length >= 1)
-            {
-                nmspace = args[0];
-            }
 
-            var path = RoleEnvironment.GetConfigurationSettingValue(nmspace + ".Path");
-            var storageAccount = RoleEnvironment.GetConfigurationSettingValue(nmspace + ".StorageAccount");
-            var container = RoleEnvironment.GetConfigurationSettingValue(nmspace + ".Container");
-            var filter = RoleEnvironment.GetConfigurationSettingValue(nmspace + ".Filter");
+            var nmspace = GetSwitch(args, "-namespace");
+            var path = GetSwitch(args, "-path");
+            var storageAccount = GetSwitch(args, "-storage");
+            var container = GetSwitch(args, "-container");
+            var filter = GetSwitch(args, "-filter");
+
+            nmspace = nmspace == null ? "Two10.FileWatcher" : nmspace;
+            path = path == null ? RoleEnvironment.GetConfigurationSettingValue(nmspace + ".Path") : path;
+            storageAccount = storageAccount == null ? RoleEnvironment.GetConfigurationSettingValue(nmspace + ".StorageAccount") : storageAccount;
+            container = container == null ? RoleEnvironment.GetConfigurationSettingValue(nmspace + ".Container") : container;
+            filter = filter == null ? RoleEnvironment.GetConfigurationSettingValue(nmspace + ".Filter") : filter;
 
             Directory.CreateDirectory(path);
 
@@ -77,6 +81,24 @@ namespace FileWatcher
             Console.WriteLine("Started FileWatcher");
             Console.ReadKey();
 
+        }
+
+        public static string GetSwitch(string[] args, string name)
+        {
+            if (null == args) throw new ArgumentNullException("args");
+            if (null == name) throw new ArgumentNullException("name");
+
+            var argsList = new List<string>(args.Select(x => x.ToLower()));
+            var index = argsList.IndexOf(name.ToLower());
+            if (index == -1)
+            {
+                return null;
+            }
+            if (args.Length < index + 2)
+            {
+                return null;
+            }
+            return args[index + 1];
         }
 
     }
