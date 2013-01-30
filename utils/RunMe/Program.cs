@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.ServiceRuntime;
 using Microsoft.WindowsAzure.StorageClient;
@@ -25,7 +26,7 @@ namespace RunMe
 
         private static void InstallPackages()
         {
-            Console.WriteLine("InstallPackages", "Information");
+            Trace.WriteLine("InstallPackages", "Information");
 
             string workingDirectory = GetWorkingDirectory();
 
@@ -43,20 +44,45 @@ namespace RunMe
                         string containerName = fields[0];
                         string packageName = fields[1];
 
-                        string packageReceiptFileName = Path.Combine(workingDirectory, packageName + ".receipt");
-
-                        if (IsNewPackage(containerName, packageName, packageReceiptFileName))
+                        if (packageName == "*")
                         {
-                            InstallPackage(containerName, packageName, Path.Combine(workingDirectory, packageName));
-                            RunBatchFile(workingDirectory, packageName);
-                            WritePackageReceipt(packageReceiptFileName);
+                            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(RoleEnvironment.GetConfigurationSettingValue(DATA_CONNECTION_STRING));
+                            CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+                            var container = blobClient.GetContainerReference(containerName);
+                            foreach (var blobListItem in container.ListBlobs().OrderBy(x => x.Uri.ToString()))
+                            {
+                                var blob = container.GetBlobReference(blobListItem.Uri.ToString());
+                                InstallPackageIfNewer(true, workingDirectory, containerName, blob.Name);
+                            }
+                        }
+                        else
+                        {
+                            InstallPackageIfNewer(true, workingDirectory, containerName, packageName);
                         }
                     }
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(string.Format("Package \"{0}\" failed to install, {1}", package, e), "Information");
+                    Trace.WriteLine(string.Format("Package \"{0}\" failed to install, {1}", package, e), "Information");
                 }
+            }
+        }
+
+        private static void InstallPackageIfNewer(bool alwaysInstallPackages, string workingDirectory, string containerName, string packageName)
+        {
+            try
+            {
+                string packageReceiptFileName = Path.Combine(workingDirectory, packageName + ".receipt");
+
+                if (alwaysInstallPackages || IsNewPackage(containerName, packageName, packageReceiptFileName))
+                {
+                    InstallPackage(containerName, packageName, workingDirectory);
+                    WritePackageReceipt(packageReceiptFileName);
+                }
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine(string.Format("Package \"{0}\" failed to install, {1}", packageName, e), "Information");
             }
         }
 
@@ -64,14 +90,14 @@ namespace RunMe
         {
             if (File.Exists(Path.Combine(workingDirectory, packageName, "runme.bat")))
             {
-                Console.WriteLine("Starting " + Path.Combine(workingDirectory, packageName, "runme.bat"));
+                Trace.WriteLine("Starting " + Path.Combine(workingDirectory, packageName, "runme.bat"));
                 var process = new Process();
                 process.StartInfo = new ProcessStartInfo("runme.bat");
                 process.StartInfo.WorkingDirectory = Path.Combine(workingDirectory, packageName);
                 process.Start();
                 process.WaitForExit();
-                Console.WriteLine("Finished" + Path.Combine(workingDirectory, packageName, "runme.bat"));
-                Console.WriteLine("Exit code = " + process.ExitCode.ToString());
+                Trace.WriteLine("Finished" + Path.Combine(workingDirectory, packageName, "runme.bat"));
+                Trace.WriteLine("Exit code = " + process.ExitCode.ToString());
             }
         }
 
@@ -98,12 +124,12 @@ namespace RunMe
 
             if (fileTimeStamp.CompareTo(blobTimeStamp) < 0)
             {
-                Console.WriteLine(string.Format("{0} is new or not yet installed.", packageName), "Information");
+                Trace.WriteLine(string.Format("{0} is new or not yet installed.", packageName), "Information");
                 return true;
             }
             else
             {
-                Console.WriteLine(string.Format("{0} has previously been installed, skipping download.", packageName), "Information");
+                Trace.WriteLine(string.Format("{0} has previously been installed, skipping download.", packageName), "Information");
                 return false;
             }
         }
@@ -127,17 +153,17 @@ namespace RunMe
             CloudBlobContainer container = blobClient.GetContainerReference(containerName);
             CloudBlockBlob blob = container.GetBlockBlobReference(packageName);
 
-            Console.WriteLine(string.Format("Downloading {0} to {1}", blob.Uri, workingDirectory), "Information");
+            Trace.WriteLine(string.Format("Downloading {0} to {1}", blob.Uri, workingDirectory), "Information");
 
             string filename = Path.GetTempFileName();
             blob.DownloadToFile(filename);
 
-            Console.WriteLine(string.Format("Extracting {0}", packageName), "Information");
+            Trace.WriteLine(string.Format("Extracting {0}", packageName), "Information");
             UnZip(Directory.GetCurrentDirectory(), filename, workingDirectory);
 
             // delete the temp file
             File.Delete(filename);
-            Console.WriteLine("Extraction finished", "Information");
+            Trace.WriteLine("Extraction finished", "Information");
         }
 
         /// <summary>
@@ -151,7 +177,7 @@ namespace RunMe
                 textWriter.WriteLine(DateTime.Now);
             }
 
-            Console.WriteLine(string.Format("Writing package receipt {0}", receiptFileName), "Information");
+            Trace.WriteLine(string.Format("Writing package receipt {0}", receiptFileName), "Information");
         }
 
 
@@ -170,7 +196,7 @@ namespace RunMe
             process.WaitForExit();
             if (0 != process.ExitCode)
             {
-                Console.WriteLine(process.StandardOutput.ReadToEnd());
+                Trace.WriteLine(process.StandardOutput.ReadToEnd());
                 throw new ApplicationException("7zip exited with error code " + process.ExitCode.ToString());
             }
         }
