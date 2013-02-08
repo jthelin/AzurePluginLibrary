@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<RoleModule 
+  xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition"
+  namespace="Two10.WindowsAzure.Plugins.SessionAffinity">
+  <Startup priority="-1">
+    <Task commandLine="ConfigureARR.cmd Two10.WindowsAzure.Plugins.SessionAffinity.http Two10.WindowsAzure.Plugins.SessionAffinity.http_SESSION_AFFINITY" 
+          executionContext="elevated" taskType="simple">
+      <Environment>
+        <Variable name="EMULATED">
+          <RoleInstanceValue xpath="/RoleEnvironment/Deployment/@emulated"/>
+        </Variable>
+      </Environment>
+    </Task>
+  </Startup>
+  <Endpoints>
+    <InputEndpoint localPort="31221" name="http" port="80" protocol="tcp"/>
+    <InternalEndpoint name="http_SESSION_AFFINITY" protocol="http">
+      <FixedPort port="8090"/>
+    </InternalEndpoint>
+  </Endpoints>
+</RoleModule>
