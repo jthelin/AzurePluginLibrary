@@ -15,7 +15,7 @@
   <Endpoints>
     <InputEndpoint localPort="31221" name="http" port="80" protocol="tcp"/>
     <InternalEndpoint name="http_SESSION_AFFINITY" protocol="http">
-      <FixedPort port="8090"/>
+      <FixedPort port="8080"/>
     </InternalEndpoint>
   </Endpoints>
 </RoleModule>
