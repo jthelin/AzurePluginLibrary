@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.ServiceRuntime;
 using Microsoft.WindowsAzure.StorageClient;
@@ -28,10 +29,10 @@ namespace RunMe
         {
             Trace.WriteLine("InstallPackages", "Information");
 
-            string workingDirectory = GetWorkingDirectory();
+            var workingDirectory = GetWorkingDirectory();
 
             // Retrieve the semicolon delimitted list of zip file packages and install them
-            string[] packages = RoleEnvironment.GetConfigurationSettingValue(PACKAGES).Split(';', ',');
+            var packages = RoleEnvironment.GetConfigurationSettingValue(PACKAGES).Split(';', ',');
             foreach (string package in packages)
             {
                 try
@@ -39,10 +40,10 @@ namespace RunMe
                     if (!string.IsNullOrWhiteSpace(package))
                     {
                         // Parse out the container\file pair
-                        string[] fields = package.Trim().Split(new char[] { '/', '\\' }, 2);
+                        var fields = package.Trim().Split(new char[] { '/', '\\' }, 2);
 
-                        string containerName = fields[0];
-                        string packageName = fields[1];
+                        var containerName = fields[0];
+                        var packageName = fields[1];
 
                         if (packageName == "*")
                         {
@@ -155,14 +156,25 @@ namespace RunMe
 
             Trace.WriteLine(string.Format("Downloading {0} to {1}", blob.Uri, workingDirectory), "Information");
 
-            string filename = Path.GetTempFileName();
-            blob.DownloadToFile(filename);
+            if (blob.Uri.PathAndQuery.EndsWith(".zip", true, Thread.CurrentThread.CurrentCulture))
+            {
+                // if this is a zip file, unzip it
+                // the temp dirtectory is limited to 100 MB
+                var filename = @"c:\" + Guid.NewGuid();
+                blob.DownloadToFile(filename);
 
-            Trace.WriteLine(string.Format("Extracting {0}", packageName), "Information");
-            UnZip(Directory.GetCurrentDirectory(), filename, workingDirectory);
+                Trace.WriteLine(string.Format("Extracting {0}", packageName), "Information");
 
-            // delete the temp file
-            File.Delete(filename);
+                UnZip(Directory.GetCurrentDirectory(), filename, workingDirectory);
+
+                // delete the temp file
+                File.Delete(filename);
+            }
+            else
+            {
+                blob.DownloadToFile(@"c:\Applications\" + blob.Uri.Segments.Last());
+            }
+
             Trace.WriteLine("Extraction finished", "Information");
         }
 
@@ -186,7 +198,7 @@ namespace RunMe
             var info = new ProcessStartInfo
             {
                 WorkingDirectory = workingDirectory,
-                Arguments = string.Format("x -y -o\"{0}\" \"{1}\"", destinationFolder, zipFile),
+                Arguments = string.Format("x -y -w c:\\Applicaions\\ -o\"{0}\" \"{1}\"", destinationFolder, zipFile),
                 FileName = "7za.exe",
                 WindowStyle = ProcessWindowStyle.Hidden,
                 RedirectStandardOutput = true,
