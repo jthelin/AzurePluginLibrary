@@ -7,9 +7,6 @@
   </Startup>
   <ConfigurationSettings>
   </ConfigurationSettings>
-  <Endpoints>
-  <InputEndpoint name="Tomcat" protocol="tcp" port="8080" />
-  </Endpoints>
   <Certificates>
   </Certificates>
 </RoleModule>
