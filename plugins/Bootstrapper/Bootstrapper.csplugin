@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<RoleModule 
+  xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition"
+  namespace="Two10.Bootstrapper">
+  <Startup>
+    <Task commandLine="createcommands.cmd" executionContext="elevated" taskType="simple" />
+    <Task commandLine="runcommands.cmd" executionContext="elevated" taskType="simple" />
+  </Startup>
+  <ConfigurationSettings>
+    <Setting name="CommaSeparatedCommandList"/>  
+  </ConfigurationSettings>
+  <Endpoints>
+  </Endpoints>
+  <Certificates>
+  </Certificates>
+</RoleModule>
