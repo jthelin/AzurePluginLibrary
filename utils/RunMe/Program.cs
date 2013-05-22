@@ -16,6 +16,7 @@ namespace RunMe
 
         static void Main(string[] args)
         {
+            Console.WriteLine("STARTING");
             InstallPackages();
         }
 
@@ -27,7 +28,7 @@ namespace RunMe
 
         private static void InstallPackages()
         {
-            Trace.WriteLine("InstallPackages", "Information");
+            Console.WriteLine("InstallPackages", "Information");
 
             var workingDirectory = GetWorkingDirectory();
 
@@ -35,6 +36,7 @@ namespace RunMe
             var packages = RoleEnvironment.GetConfigurationSettingValue(PACKAGES).Split(';', ',');
             foreach (string package in packages)
             {
+                Console.WriteLine("Installing Package " + package);
                 try
                 {
                     if (!string.IsNullOrWhiteSpace(package))
@@ -64,7 +66,7 @@ namespace RunMe
                 }
                 catch (Exception e)
                 {
-                    Trace.WriteLine(string.Format("Package \"{0}\" failed to install, {1}", package, e), "Information");
+                    Console.WriteLine(string.Format("Package \"{0}\" failed to install, {1}", package, e), "Information");
                 }
             }
         }
@@ -83,7 +85,7 @@ namespace RunMe
             }
             catch (Exception e)
             {
-                Trace.WriteLine(string.Format("Package \"{0}\" failed to install, {1}", packageName, e), "Information");
+                Console.WriteLine(string.Format("Package \"{0}\" failed to install, {1}", packageName, e), "Information");
             }
         }
 
@@ -91,14 +93,14 @@ namespace RunMe
         {
             if (File.Exists(Path.Combine(workingDirectory, packageName, "runme.bat")))
             {
-                Trace.WriteLine("Starting " + Path.Combine(workingDirectory, packageName, "runme.bat"));
+                Console.WriteLine("Starting " + Path.Combine(workingDirectory, packageName, "runme.bat"));
                 var process = new Process();
                 process.StartInfo = new ProcessStartInfo("runme.bat");
                 process.StartInfo.WorkingDirectory = Path.Combine(workingDirectory, packageName);
                 process.Start();
                 process.WaitForExit();
-                Trace.WriteLine("Finished" + Path.Combine(workingDirectory, packageName, "runme.bat"));
-                Trace.WriteLine("Exit code = " + process.ExitCode.ToString());
+                Console.WriteLine("Finished" + Path.Combine(workingDirectory, packageName, "runme.bat"));
+                Console.WriteLine("Exit code = " + process.ExitCode.ToString());
             }
         }
 
@@ -125,12 +127,12 @@ namespace RunMe
 
             if (fileTimeStamp.CompareTo(blobTimeStamp) < 0)
             {
-                Trace.WriteLine(string.Format("{0} is new or not yet installed.", packageName), "Information");
+                Console.WriteLine(string.Format("{0} is new or not yet installed.", packageName), "Information");
                 return true;
             }
             else
             {
-                Trace.WriteLine(string.Format("{0} has previously been installed, skipping download.", packageName), "Information");
+                Console.WriteLine(string.Format("{0} has previously been installed, skipping download.", packageName), "Information");
                 return false;
             }
         }
@@ -144,6 +146,7 @@ namespace RunMe
         private static void InstallPackage(string containerName, string packageName, string workingDirectory)
         {
 
+
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(RoleEnvironment.GetConfigurationSettingValue(DATA_CONNECTION_STRING));
 
             CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
@@ -154,7 +157,7 @@ namespace RunMe
             CloudBlobContainer container = blobClient.GetContainerReference(containerName);
             CloudBlockBlob blob = container.GetBlockBlobReference(packageName);
 
-            Trace.WriteLine(string.Format("Downloading {0} to {1}", blob.Uri, workingDirectory), "Information");
+            Console.WriteLine(string.Format("Downloading {0} to {1}", blob.Uri, workingDirectory), "Information");
 
             if (blob.Uri.PathAndQuery.EndsWith(".zip", true, Thread.CurrentThread.CurrentCulture))
             {
@@ -163,7 +166,7 @@ namespace RunMe
                 var filename = @"c:\" + Guid.NewGuid();
                 blob.DownloadToFile(filename);
 
-                Trace.WriteLine(string.Format("Extracting {0}", packageName), "Information");
+                Console.WriteLine(string.Format("Extracting {0}", packageName), "Information");
 
                 UnZip(Directory.GetCurrentDirectory(), filename, workingDirectory);
 
@@ -175,7 +178,7 @@ namespace RunMe
                 blob.DownloadToFile(@"c:\Applications\" + blob.Uri.Segments.Last());
             }
 
-            Trace.WriteLine("Extraction finished", "Information");
+            Console.WriteLine("Extraction finished", "Information");
         }
 
         /// <summary>
@@ -189,7 +192,7 @@ namespace RunMe
                 textWriter.WriteLine(DateTime.Now);
             }
 
-            Trace.WriteLine(string.Format("Writing package receipt {0}", receiptFileName), "Information");
+            Console.WriteLine(string.Format("Writing package receipt {0}", receiptFileName), "Information");
         }
 
 
@@ -197,18 +200,18 @@ namespace RunMe
         {
             var info = new ProcessStartInfo
             {
-                WorkingDirectory = workingDirectory,
-                Arguments = string.Format("x -y -w c:\\Applications\\ -o\"{0}\" \"{1}\"", destinationFolder, zipFile),
-                FileName = "7za.exe",
+                WorkingDirectory = destinationFolder,
+                Arguments = string.Format("x -y \"{0}\"", zipFile),
+                FileName = Path.Combine(workingDirectory, "7za.exe"),
                 WindowStyle = ProcessWindowStyle.Hidden,
                 RedirectStandardOutput = true,
                 UseShellExecute = false
             };
-            var process = Process.Start(info);
+            var process = Process.Start(Path.Combine(workingDirectory, "7za.exe"), string.Format("x -y \"{0}\" -oc:\\applications", zipFile));
             process.WaitForExit();
             if (0 != process.ExitCode)
             {
-                Trace.WriteLine(process.StandardOutput.ReadToEnd());
+                Console.WriteLine(process.StandardOutput.ReadToEnd());
                 throw new ApplicationException("7zip exited with error code " + process.ExitCode.ToString());
             }
         }
