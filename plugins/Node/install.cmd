@@ -1,3 +1,3 @@
-start /wait msiexec /I node-v0.8.22-x64.msi /quiet /l*v nodeinstall.log >> install.log
-AppendPath.exe "%programfiles%\nodejs" >> install.log
-netsh advfirewall firewall add rule name="Node.js" dir=in action=allow program="%programfiles%\nodejs\node.exe" enable=yes >> install.log
+7za.exe x -y node.zip
+AppendPath.exe "%cd%" >> install.log
+netsh advfirewall firewall add rule name="Node.js" dir=in action=allow program="%cd%\node.exe" enable=yes >> install.log
