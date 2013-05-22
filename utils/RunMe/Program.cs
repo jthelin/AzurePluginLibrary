@@ -198,7 +198,7 @@ namespace RunMe
             var info = new ProcessStartInfo
             {
                 WorkingDirectory = workingDirectory,
-                Arguments = string.Format("x -y -w c:\\Applicaions\\ -o\"{0}\" \"{1}\"", destinationFolder, zipFile),
+                Arguments = string.Format("x -y -w c:\\Applications\\ -o\"{0}\" \"{1}\"", destinationFolder, zipFile),
                 FileName = "7za.exe",
                 WindowStyle = ProcessWindowStyle.Hidden,
                 RedirectStandardOutput = true,
