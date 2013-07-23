@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<RoleModule 
+  xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition"
+  namespace="Two10.WindowsAzure.Plugins.SessionAffinity4">
+  <Startup>
+    <Task commandLine="ConfigureARR.cmd Two10.WindowsAzure.Plugins.SessionAffinity4.http Two10.WindowsAzure.Plugins.SessionAffinity4.http_SA &gt; startup.log" 
+          executionContext="elevated" taskType="simple">
+      <Environment>
+        <Variable name="EMULATED">
+          <RoleInstanceValue xpath="/RoleEnvironment/Deployment/@emulated"/>
+        </Variable>
+      </Environment>
+    </Task>
+  </Startup>
+  <Endpoints>
+    <InputEndpoint localPort="31221" name="http" port="80" protocol="tcp"/>
+    <InternalEndpoint name="http_SA" protocol="http">
+      <FixedPort port="8080"/>
+    </InternalEndpoint>
+  </Endpoints>
+  <ConfigurationSettings>
+    <Setting name="ArrTimeOutSeconds" />
+  </ConfigurationSettings>
+</RoleModule>
