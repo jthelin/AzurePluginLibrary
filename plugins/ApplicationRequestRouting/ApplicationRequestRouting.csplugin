@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<RoleModule namespace="Orckestra.Overture.WindowsAzure.Plugins.ApplicationRequestRouting"
+ xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition">
+  <Startup priority="-1">
+    <Task commandLine="install.cmd" executionContext="elevated" taskType="simple">
+      <Environment>
+        <Variable name="IsEmulated">
+          <RoleInstanceValue xpath="/RoleEnvironment/Deployment/@emulated" />
+        </Variable>
+      </Environment>
+    </Task>
+  </Startup>
+</RoleModule>
